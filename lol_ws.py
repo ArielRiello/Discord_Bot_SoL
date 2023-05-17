@@ -2,7 +2,24 @@ import requests
 from bs4 import BeautifulSoup
 
 def get_campeao_rank(campeao, rota, elo):
-    url = f"https://u.gg/lol/champions/{campeao}/build/{rota}?rank={elo}&region=br1"
+
+    elo_ptbr = {
+        'iron': 'ferro',
+        'bronze': 'bronze',
+        'prata': 'silver',
+        'ouro': 'gold',
+        'platina': 'platinum',
+        'diamante': 'diamond',
+        'mestre': 'master',
+        'granmestre': 'grandmaster',
+        'desafiante': 'challenger'
+        }
+    
+    chave = elo
+    if chave in elo_ptbr:
+        valor_elo = elo_ptbr[chave]
+
+    url = f"https://u.gg/lol/champions/{campeao}/build/{rota}?rank={valor_elo}&region=br1"
     response = requests.get(url)
     content = response.content
     soup = BeautifulSoup(content, "html.parser")
